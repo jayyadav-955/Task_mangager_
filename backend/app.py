@@ -9,7 +9,8 @@ import datetime
 
 app = Flask(__name__)
 CORS(app)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:''@localhost/task_manager'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:''@localhost/task_manager'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://sql12753532:8GuZ9d7Wdw@sql12.freesqldatabase.com:3306/sql12753532'
 app.config['SECRET_KEY'] = 'tsm1'
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
@@ -21,15 +22,6 @@ class User(db.Model):
     password = db.Column(db.String(200), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     date=db.Column(db.DateTime, default=datetime.datetime.now)
-    
-# class Task(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     title = db.Column(db.String(120), nullable=False)
-#     description = db.Column(db.String(500), nullable=False)
-#     due_date = db.Column(db.DateTime, nullable=False)
-#     reminder_time = db.Column(db.Integer, nullable=False)  # in minutes before due_date
-#     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-
 class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(120), nullable=False)
@@ -99,7 +91,6 @@ def login():
 
 
 
-##########################################################################
 
 
 
@@ -150,28 +141,6 @@ def create_task():
         'reminder_time': new_task.reminder_time
     }}), 201
 
-# @app.route('/update/<id>/', methods=['PUT'])
-# def update_task(id):
-#     tasks=Task.query.get(id)
-#     title = request.json['title']
-#     description = request.json['description']
-#     due_date = request.json['due_date']
-#     reminder_time = int(request.json['reminder_time']) 
-#     tasks.title=title
-#     tasks.description=description
-#     tasks.due_date=due_date
-#     tasks.reminder_time=reminder_time
-#     db.session.add(tasks)
-#     db.session.commit()
-#     return jsonify({'message': 'Task updated successfully!', 'task': {
-#         'title': tasks.title,
-#         'description': tasks.description,
-#         'due_date': tasks.due_date,
-#         'reminder_time': tasks.reminder_time
-#     }}), 201
-
-
- # Enable CORS globally
 
 @app.route('/update/<int:id>/', methods=['PUT', 'OPTIONS'])
 def update_task(id):
